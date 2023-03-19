@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import time
 
 def login_page(applicant_token):
     if (applicant_token):
@@ -32,8 +33,36 @@ def login_page(applicant_token):
 
     
 
-def register():
-    pass
+def register(applicant_token):
+    if applicant_token:
+        with st.form("my_form"):
+            st.write("You need to logout before registering")
+            submit_res = st.form_submit_button(label='Logout here')
+
+            if submit_res:
+                st.write("You are now logged out.")
+                del st.session_state['applicant-token']
+                time.sleep(3)
+
+                st.experimental_rerun()
+
+    else:
+        with st.form('my_form'):
+            email = st.text_input(label='email')
+            username = st.text_input(label='username')
+            password = st.text_input(label='password', type='password')
+            submit_res = st.form_submit_button(label='Register')
+
+            if submit_res:
+                st.write("Registered clicked.")
+
+                headers = {'Content-type':'application/json; charset=utf-8'}
+                response = requests.post('http://127.0.0.1:8000/api/accounts/api_register/',
+                    headers=headers, json={'email':email, 'username':username 'password':password})
+                
+                if response.status_code == 200:
+                    st.experimental_rerun()
+                
 
 def log_out():
     pass
