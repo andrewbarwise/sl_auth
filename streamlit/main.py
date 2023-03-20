@@ -64,14 +64,27 @@ def register(applicant_token):
                     st.experimental_rerun()
                 
 
-def log_out():
-    pass
+def log_out(applicant_token):
+    if applicant_token:
+        with st.form("my_form"):
+            st.write("Do you want to log out?")
+            submit_res = st.form_submit_button(label='Logout')
+
+            if submit_res:
+                if 'applicant-token' in st.session_state:
+                    del st.session_state['applicant-token']
+                st.write("You are now logged out.")
+
+    else:
+        st.write("You are now logged out")
 
 def load_view():
     add_selectbox = st.sidebar.selectbox(
         "Please select an option",
         ("Login","Register","Log Out")
     )
+
+    applicant_token = ''
 
     if add_selectbox == "Login":
         login_page()
