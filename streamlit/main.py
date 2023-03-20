@@ -58,7 +58,7 @@ def register(applicant_token):
 
                 headers = {'Content-type':'application/json; charset=utf-8'}
                 response = requests.post('http://127.0.0.1:8000/api/accounts/api_register/',
-                    headers=headers, json={'email':email, 'username':username 'password':password})
+                    headers=headers, json={'email':email, 'username':username, 'password':password})
                 
                 if response.status_code == 200:
                     st.experimental_rerun()
@@ -86,14 +86,17 @@ def load_view():
 
     applicant_token = ''
 
+    if 'applicant-token' in st.session_state:
+        applicant_token = st.session_state['applicant-token']
+
     if add_selectbox == "Login":
-        login_page()
+        login_page(applicant_token=applicant_token)
 
     elif add_selectbox == "Register":
-        register()
+        register(applicant_token=applicant_token)
 
     elif add_selectbox == "Log Out":
-        log_out()
+        log_out(applicant_token=applicant_token)
 
 if __name__ == '__main__':
     load_view()
