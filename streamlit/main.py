@@ -29,7 +29,7 @@ def login_page(applicant_token):
                     if applicant_token:
                         st.session_state.key = 'applicant-token'
                         st.session_state['applicant-token'] = applicant_token
-                        st.experiment_rerun()
+                        st.experimental_rerun()
 
     
 
